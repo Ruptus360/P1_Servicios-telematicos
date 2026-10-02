@@ -1,0 +1,147 @@
+
+<!DOCKTYPE html>
+<html>
+<head>
+    <title>Configuracion</title>
+    <link rel="stylesheet" href="iroom.css">
+</head>
+
+<body>
+<main class="contenedor1">
+    <header><h1>SmartRoom Configuration</h1></header>
+
+    <form action="datos" method="post" enctype="multipart/form-data" id="formconfig" class="formulario">
+
+    <section class="columna">
+        <h2>Datos de la habitación</h2>
+
+        <div class="campo">
+          <label for="pais">País:</label>
+          <input type="text" id="pais" name="pais" list="lista-paises" placeholder="Seleccione o escriba..." required>
+          <datalist id="lista-paises">
+            <option value="España">
+            <option value="Francia">
+            <option value="Portugal">
+            <option value="Italia">
+            <option value="Alemania">
+          </datalist>
+        </div>
+
+        <div class="campo">
+          <label for="ciudad">Ciudad:</label>
+          <input type="text" id="ciudad" name="ciudad" required>
+        </div>
+
+        <div class="campo">
+          <label for="gps">Coordenadas GPS:</label>
+          <input type="text" id="gps" name="gps" placeholder="Ej: 40.5133, -3.3494">
+        </div>
+
+        <div class="campo">
+          <label for="mapa-url">Mapa URL:</label>
+          <input type="url" id="mapa-url" name="mapa-url" placeholder="https://maps.google.com/...">
+        </div>
+
+        <div class="campo">
+          <label for="foto">Foto:</label>
+          <input type="file" id="foto" name="foto" accept="image/*">
+        </div>
+
+        <div class="campo">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+
+        <div class="campo-submit">
+          <button type="submit" id="btn-enviar">Enviar datos</button>
+        </div>
+      
+   
+
+    </section>
+
+
+
+    <section class="columna">
+ <h2>Seleccione Sensor</h2>
+    <fieldset class="cajas">
+     <legend >sensores disponibles</legend>
+     
+<label><input type="checkbox" name="sensor" value="temperatura"> Temperatura</label>
+          <label><input type="checkbox" name="sensor" value="humedad"> Humedad</label>
+          <label><input type="checkbox" name="sensor" value="sonido"> Nivel de sonido</label>
+          <label><input type="checkbox" name="sensor" value="luz"> Nivel de luz</label>
+          <label><input type="checkbox" name="sensor" value="movimiento"> Movimiento</label>
+    </fieldset>
+    <h2>
+        Alertas
+    </h2>
+    <div class="campo">
+
+    </div>
+    <div class="campo">
+        <label for="tempmax">temeperatura maxima:</label>
+        <input  type="number" id="tempmax" name="tempmax" min="-20" max="45" step="0.5">
+    </div>
+
+    <div class="campo">
+
+        <label for="tempmin">
+            Temperatura minima:
+        </label>
+        <input type="number" id="tempmin" name="tempmin" min="-20" max="45" step="0.5">
+
+
+    </div>
+
+    <div class="campo campo-output">
+          <label for="dif-temp">Diferencia térmica:</label>
+          <output id="dif-temp" name="dif-temp" for="temp-max temp-min">-- °C</output>
+        </div>
+    </section>
+
+    </form>
+
+    <footer>
+    <a href="index2.html">INICIO</a>    
+    
+    </footer>
+</main>
+
+<script>
+    const tempMax = document.getElementById('temp-max');
+    const tempMin = document.getElementById('temp-min');
+    const difTemp = document.getElementById('dif-temp');
+
+    function actualizarDiferenciaYValidar() {
+      const maxVal = parseFloat(tempMax.value);
+      const minVal = parseFloat(tempMin.value);
+
+      // Si ambos tienen valor numérico introducido
+      if (!isNaN(maxVal) && !isNaN(minVal)) {
+        if (maxVal < minVal) {
+          // Validación personalizada en JS combinada con la API de validación nativa de HTML5
+          tempMax.setCustomValidity("La temperatura máxima no puede ser inferior a la temperatura mínima.");
+          difTemp.textContent = "Error: La máx. debe ser ≥ mín.";
+          difTemp.classList.add("error-texto");
+        } else {
+          // Valor correcto: limpiamos el error
+          tempMax.setCustomValidity("");
+          const diferencia = (maxVal - minVal).toFixed(1);
+          difTemp.textContent = diferencia + " °C";
+          difTemp.classList.remove("error-texto");
+        }
+      } else {
+        tempMax.setCustomValidity("");
+        difTemp.textContent = "-- °C";
+        difTemp.classList.remove("error-texto");
+      }
+    }
+
+    tempMax.addEventListener('input', actualizarDiferenciaYValidar);
+    tempMin.addEventListener('input', actualizarDiferenciaYValidar);
+  </script>
+
+  
+</body>
+</html>
