@@ -1,0 +1,16 @@
+# Archivos OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# configuraciones de editores
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# temps
+*.log
+*.tmp
+*.bak
+*~
