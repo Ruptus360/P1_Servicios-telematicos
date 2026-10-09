@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <title>Nombre</title>
   <link rel="stylesheet" href="css/iroom.css">
 </head>
@@ -21,28 +21,27 @@
 
     <aside class="nav-info" aria-label="Información adicional">
       <h2>Informacion</h2>
-      <p></p>
+      <p id="saludo"></p>
     </aside>
 
     <section class="contenido" aria-label="Contenido principal">
-      <div class="columna">
-        
+      <section class="columna">
 
         <p>
-          
           <strong>Smart Room</strong>
         </p>
 
         <div class="campo">
           <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="fname" value="Smart Room" readonly> </div>
+          <input type="text" id="nombre" name="fname" value="Smart Room">
+        </div>
+
         <img
           src="./images/logo-smartroom.png"
           alt="Logo de Smart Room"
-        >
+        />
 
-      
-      </div>
+      </section>
     </section>
 
     <footer>
@@ -51,8 +50,21 @@
   </main>
 
   <script>
-    let fname = document.getElementById("nombre").value.trim();
-    document.getElementById("saludo").textContent = `Hola, ${fname}!, bienvenido a Smart Room.`;
+    const inputNombre = document.getElementById("nombre");
+    const saludo = document.getElementById("saludo");
+
+    // Recupera fname guardado, si existe
+    const guardado = localStorage.getItem("fname");
+    if (guardado) inputNombre.value = guardado;
+
+    function actualizarSaludo() {
+      const fname = inputNombre.value.trim();
+      localStorage.setItem("fname", fname);
+      saludo.textContent = `Hola, ${fname || "invitado"}! Bienvenido a Smart Room.`;
+    }
+
+    inputNombre.addEventListener("input", actualizarSaludo);
+    actualizarSaludo();
   </script>
 </body>
 </html>
